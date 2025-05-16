@@ -1,0 +1,27 @@
+class Solution {
+    public double minmaxGasDist(int[] stations, int k) {
+        int n = stations.length;
+        double left = 0, right = stations[n - 1] - stations[0];
+        double eps = 1e-6;
+
+        while (right - left > eps) {
+            double mid = (left + right) / 2.0;
+
+            if (canPlace(stations, k, mid)) {
+                right = mid;
+            } else {
+                left = mid;
+            }
+        }
+        return left;
+    }
+
+    private boolean canPlace(int[] stations, int k, double dist) {
+        int required = 0;
+        for (int i = 1; i < stations.length; i++) {
+            double gap = stations[i] - stations[i - 1];
+            required += (int) (gap / dist);
+        }
+        return required <= k;
+    }
+}
