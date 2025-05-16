@@ -1,0 +1,39 @@
+import java.util.Arrays;
+
+class Solution {
+    public int maxMinDistance(int n, int k, int[] nums) {
+        Arrays.sort(nums);
+        int l = 1;
+        int h = nums[n - 1] - nums[0];
+        int ans = 0;
+
+        while (l <= h) {
+            int mid = l + (h - l) / 2;
+
+            if (canPlaceCows(nums, n, k, mid)) {
+                ans = mid;
+                l = mid + 1;
+            } else {
+                h = mid - 1;
+            }
+        }
+
+        return ans;
+    }
+
+    private boolean canPlaceCows(int[] nums, int n, int k, int dist) {
+        int cowsPlaced = 1;
+        int lastPos = nums[0];
+
+        for (int i = 1; i < n; i++) {
+            if (nums[i] - lastPos >= dist) {
+                cowsPlaced++;
+                lastPos = nums[i];
+            }
+            if (cowsPlaced == k)
+                return true;
+        }
+
+        return false;
+    }
+}
