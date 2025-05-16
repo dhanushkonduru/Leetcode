@@ -1,0 +1,59 @@
+import java.util.*;
+
+class Solution {
+    public int allocateBooks(int[] nums, int m) {
+        if (m > nums.length)
+            return -1;
+
+        int low = getMax(nums);
+        int high = getSum(nums);
+        int ans = high;
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+
+            if (isPossible(nums, m, mid)) {
+                ans = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+
+        return ans;
+    }
+
+    private int getMax(int[] arr) {
+        int max = arr[0];
+        for (int val : arr) {
+            if (val > max)
+                max = val;
+        }
+        return max;
+    }
+
+    private int getSum(int[] arr) {
+        int sum = 0;
+        for (int val : arr)
+            sum += val;
+        return sum;
+    }
+
+    private boolean isPossible(int[] arr, int m, int maxLimit) {
+        int studentCount = 1;
+        int pageSum = 0;
+
+        for (int val : arr) {
+            if (pageSum + val <= maxLimit) {
+                pageSum += val;
+            } else {
+                studentCount++;
+                pageSum = val;
+                if (studentCount > m)
+                    return false;
+            }
+        }
+
+        return true;
+    }
+}
