@@ -1,38 +1,31 @@
+import java.util.*;
+
 class Solution {
-    List<String> res;
-    String digits;
-    String[] map;
+
+    List<String> res = new ArrayList<>();
+    String[] map = {
+        "", "", "abc", "def", "ghi",
+        "jkl", "mno", "pqrs", "tuv", "wxyz"
+    };
+
     public List<String> letterCombinations(String digits) {
-        this.res = new ArrayList<>();
-        this.digits = digits;
-        if(digits.length() == 0) return res;
-        this.map = new String[]{
-            "0",
-            "1",
-            "abc",
-            "def",
-            "ghi",
-            "jkl",
-            "mno",
-            "pqrs",
-            "tuv",
-            "wxyz"
-        };
-        backtrack(new StringBuilder(),0);
+        if (digits.length() == 0) return res;
+        backtrack(digits, 0, new StringBuilder());
         return res;
     }
-    
-    void backtrack(StringBuilder temp, int n){
-        if(n==digits.length()){
-            res.add(temp.toString());
+
+    private void backtrack(String digits, int index, StringBuilder curr) {
+        if (index == digits.length()) {
+            res.add(curr.toString());
             return;
         }
-        String letters = map[digits.charAt(n) - '0'];
-        for(int j = 0; j<letters.length(); j++){
-            temp.append(letters.charAt(j));
-            backtrack(temp,n+1);     // go to the next digit, not the letter
-            temp.deleteCharAt(temp.length()-1);
+
+        String letters = map[digits.charAt(index) - '0'];
+
+        for (char c : letters.toCharArray()) {
+            curr.append(c);
+            backtrack(digits, index + 1, curr);
+            curr.deleteCharAt(curr.length() - 1);
         }
-        
     }
 }
