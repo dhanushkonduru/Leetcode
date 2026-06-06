@@ -11,8 +11,8 @@ class Solution {
             map.put(t.charAt(i), map.getOrDefault(t.charAt(i),0)-1);
         }
 
-        for(Map.Entry<Character,Integer> entry : map.entrySet()){
-            if(entry.getValue() != 0){
+        for(int count : map.values()){
+            if(count != 0){
                 return false;
             }
         }
